@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import net.fusejna.DirectoryFiller;
 import net.fusejna.FlockCommand;
+import net.fusejna.FuseException;
 import net.fusejna.StructFlock.FlockWrapper;
 import net.fusejna.StructFuseFileInfo.FileInfoWrapper;
 import net.fusejna.StructStat.StatWrapper;
@@ -17,6 +18,16 @@ import net.fusejna.types.TypeMode.NodeType;
 
 public class VRamdisk extends net.fusejna.FuseFilesystem
 {
+	public static void main(final String[] args) throws FuseException
+	{
+		if (args.length != 2) {
+			System.err.println("Usage: ramdisk <mountpoint> <size>");
+			System.exit(1);
+		}
+		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
+		new VRamdisk(capacity).mount(args[0]);
+	}
+
 	VickyFS openVFS;
 
 	VRamdisk(final int size)
