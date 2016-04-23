@@ -13,9 +13,17 @@ import net.fusejna.StructTimeBuffer.TimeBufferWrapper;
 import net.fusejna.XattrFiller;
 import net.fusejna.XattrListFiller;
 import net.fusejna.types.TypeMode.ModeWrapper;
+import net.fusejna.types.TypeMode.NodeType;
 
 public class VRamdisk extends net.fusejna.FuseFilesystem
 {
+	VickyFS openVFS;
+
+	VRamdisk(final int size)
+	{
+		openVFS = new VickyFS(size);
+	}
+
 	@Override
 	public int access(final String path, final int access)
 	{
@@ -59,8 +67,13 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		openVFS.create_point(path, VPoint.IS_FILE);
+		final int newFD = openVFS.open_file(path);
+		if (newFD == -1) {
+			System.out.println(path + " already exists");
+		}
+		info.fh(newFD);
+		return newFD;
 	}
 
 	@Override
@@ -79,8 +92,10 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int flush(final String path, final FileInfoWrapper info)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		if (openVFS.close_file_point((int) info.fh()) == true) {
+			return 0;
+		}
+		return -1;
 	}
 
 	@Override
@@ -107,7 +122,24 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int getattr(final String path, final StatWrapper stat)
 	{
-		// TODO Auto-generated method stub
+		VPoint point;
+		if (path.equals("/") && openVFS.currentDir.name.equals("/")) {
+			point = openVFS.currentDir;
+		}
+		else {
+			point = openVFS.return_point(path);
+		}
+		stat.ino(point.hashCode());
+		if (point.isDirectory()) {
+			stat.nlink(2);
+			stat.size(point.name.length() * 2);
+			stat.setMode(NodeType.DIRECTORY);
+		}
+		else {
+			stat.nlink(1);
+			stat.size(point.name.length() * 2 + point.contents.size());
+			stat.setMode(NodeType.FILE);
+		}
 		return 0;
 	}
 
@@ -135,7 +167,6 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public void init()
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -162,43 +193,54 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int mkdir(final String path, final ModeWrapper mode)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return openVFS.create_point(path, VPoint.IS_DIRECTORY) == true ? 0 : -1;
 	}
 
 	@Override
 	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return openVFS.create_point(path, VPoint.IS_FILE) == true ? 0 : -1;
 	}
 
 	@Override
 	public int open(final String path, final FileInfoWrapper info)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		final int existingFD = openVFS.open_file(path);
+		if (existingFD != -1) {
+			info.fh(existingFD);
+			return existingFD;
+		}
+		else {
+			openVFS.create_point(path, VPoint.IS_FILE);
+			final int newFD = openVFS.open_file(path);
+			info.fh(newFD);
+			return newFD;
+		}
 	}
 
 	@Override
 	public int opendir(final String path, final FileInfoWrapper info)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return openVFS.change_dir(path) == true ? 0 : -1;
 	}
 
 	@Override
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return openVFS.vread((int) info.fh(), (int) size, (int) offset, buffer) == true ? 0 : -1;
 	}
 
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		final VPoint toBeRead = openVFS.return_point(path);
+		if (toBeRead.isFile()) {
+			return -1;
+		}
+		else {
+			filler.add(toBeRead.returnChildPoints());
+			return -1;
+		}
 	}
 
 	@Override
@@ -239,8 +281,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int rmdir(final String path)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return openVFS.remove_point(path) == true ? 0 : -1;
 	}
 
 	@Override
@@ -275,8 +316,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int unlink(final String path)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return openVFS.remove_point(path) == true ? 0 : -1;
 	}
 
 	@Override
@@ -290,7 +330,6 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int write(final String path, final ByteBuffer buf, final long bufSize, final long writeOffset,
 			final FileInfoWrapper info)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return openVFS.vwrite((int) info.fh(), (int) bufSize, (int) writeOffset, buf) == true ? 0 : -1;
 	}
 }
