@@ -2,6 +2,7 @@ package net.vicky;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import net.fusejna.DirectoryFiller;
 import net.fusejna.FlockCommand;
@@ -22,6 +23,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	{
 		if (args.length != 2) {
 			System.err.println("Usage: ramdisk <mountpoint> <size>");
+			System.err.println("You gave " + Arrays.toString(args));
 			System.exit(1);
 		}
 		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
