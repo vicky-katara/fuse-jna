@@ -145,7 +145,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			point = openVFS.currentDir;
 		}
 		else {
-			point = openVFS.return_point(path);
+			point = openVFS.return_point_fully_qualified(path);
 		}
 		if (point == null) {
 			return -ErrorCodes.ENOENT();
