@@ -101,6 +101,7 @@ public class VickyFS
 
 	boolean change_dir(final String path)
 	{
+		System.out.println("  >>> change_dir called with path:" + path);
 		if (path.equals("/") || path.equals("")) {
 			currentDir = rootDir;
 			return true;
@@ -117,6 +118,7 @@ public class VickyFS
 
 	boolean close_file_point(final int fd)
 	{
+		System.out.println("  >>> close_file_point called with fd:" + fd);
 		if (openFileMap.containsKey(fd)) {
 			openFileMap.remove(fd);
 			return true;
@@ -129,6 +131,7 @@ public class VickyFS
 
 	int create_point(final String path, final boolean type)
 	{
+		System.out.println("  >>> create_point called with path:" + path);
 		// save currentDir
 		final VPoint oldCurrent = currentDir;
 		final String newPointName = resolvePath(path);
@@ -144,6 +147,7 @@ public class VickyFS
 
 	boolean createNewPointUnderCurrentDir(final String newPointName, final boolean type)
 	{
+		System.out.println("  >>> createNewPointUnderCurrentDir called with path:" + newPointName);
 		if (newPointName == null || newPointName.equals("") || newPointName.length() == 0) {
 			System.err.println("A point cannot be created with <blank> name");
 			return false;
@@ -166,23 +170,24 @@ public class VickyFS
 		}
 	}
 
-	int createPoint(final String path, final boolean type)
-	{
-		// save currentDir
-		final VPoint oldCurrent = currentDir;
-		final String newPointName = resolvePath(path);
-		final VPoint newPoint = new VPoint(newPointName, type, currentDir);
-		if (generateSpaceFor(newPoint) == false) {
-			return -ErrorCodes.ENOMEM();
-		}
-		final int success = currentDir.addChildToDir(newPoint);
-		// load back curretnDir
-		currentDir = oldCurrent;
-		return success;
-	}
-
+	// int createPoint(final String path, final boolean type)
+	// {
+	// System.out.println(" >>> createPoint called with path:" + path);
+	// // save currentDir
+	// final VPoint oldCurrent = currentDir;
+	// final String newPointName = resolvePath(path);
+	// final VPoint newPoint = new VPoint(newPointName, type, currentDir);
+	// if (generateSpaceFor(newPoint) == false) {
+	// return -ErrorCodes.ENOMEM();
+	// }
+	// final int success = currentDir.addChildToDir(newPoint);
+	// // load back curretnDir
+	// currentDir = oldCurrent;
+	// return success;
+	// }
 	boolean generateSpaceFor(final VPoint newPoint)
 	{
+		System.out.println("  >>> generateSpaceFor called with path:" + newPoint);
 		int newSpaceNeeded = newPoint.name.length() * 2; // char is 2 bytes
 		if (newPoint.isFile()) {
 			newSpaceNeeded += newPoint.contents.size();
@@ -200,6 +205,7 @@ public class VickyFS
 
 	Integer getFDForOpenFileIfExits(final String filePointName)
 	{
+		System.out.println("  >>> getFDForOpenFileIfExits called with path:" + filePointName);
 		if (openFileMap.containsValue(new VPoint(filePointName))) {
 			for (final Map.Entry<Integer, VPoint> entry : openFileMap.entrySet()) {
 				final VPoint existingPoint = entry.getValue();
@@ -213,6 +219,7 @@ public class VickyFS
 
 	int open_file(final String path)
 	{
+		System.out.println("  >>> open_file called with path:" + path);
 		// save currentDir
 		final VPoint oldCurrent = currentDir;
 		final String newPointName = resolvePath(path);
@@ -224,6 +231,7 @@ public class VickyFS
 
 	int openFileInCurrentDir(final String filePointName)
 	{
+		System.out.println("  >>> openFileInCurrentDir called with path:" + filePointName);
 		final Integer existingFD = getFDForOpenFileIfExits(filePointName);
 		if (existingFD != null) {
 			System.err.println(filePointName + " was already open.");
@@ -250,6 +258,7 @@ public class VickyFS
 
 	void recoverSpaceFor(final VPoint removalPoint)
 	{
+		System.out.println("  >>> recoverSpaceFor called with path:" + removalPoint);
 		int spaceRecovered = removalPoint.name.length() * 2; // char is 2 bytes
 		if (removalPoint.isFile()) {
 			spaceRecovered += removalPoint.contents.size();
@@ -260,6 +269,7 @@ public class VickyFS
 
 	boolean remove_point(final String path)
 	{
+		System.out.println("  >>> remove_point called with path:" + path);
 		boolean success;
 		// save currentDir
 		final VPoint oldCurrent = currentDir;
@@ -291,6 +301,7 @@ public class VickyFS
 	 */
 	boolean removePointUnderCurrentDir(final String exisingPointName)
 	{
+		System.out.println("  >>> removePointUnderCurrentDir called with path:" + exisingPointName);
 		if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
 			System.err.println("A point cannot exist with <blank> name");
 			return false;
@@ -310,6 +321,7 @@ public class VickyFS
 
 	String resolvePath(final String originalPath)
 	{
+		System.out.println("  >>> resolvePath called with path:" + originalPath);
 		try {
 			currentDir = rootDir;
 			final String[] pathArr = originalPath.split("/");
@@ -340,6 +352,7 @@ public class VickyFS
 
 	VPoint return_point(final String path)
 	{
+		System.out.println("  >>> return_point called with path:" + path);
 		// save currentDir
 		if (currentDir == rootDir && path.equals("/")) {
 			return rootDir;
@@ -360,6 +373,7 @@ public class VickyFS
 
 	VPoint return_point_fully_qualified(final String path)
 	{
+		System.out.println("  >>> return_point_fully_qualified called with path:" + path);
 		// save currentDir
 		if (currentDir == rootDir && path.equals("/")) {
 			return rootDir;
@@ -381,12 +395,14 @@ public class VickyFS
 
 	String returnAbsolutePointName(final String path)
 	{
+		System.out.println("  >>> returnAbsolutePointName called with path:" + path);
 		final String[] splitted = path.split("/");
 		return splitted[splitted.length - 1];
 	}
 
 	VPoint returnPointInCurrentDir(final String exisingPointName)
 	{
+		System.out.println("  >>> returnPointInCurrentDir called with path:" + exisingPointName);
 		if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
 			System.err.println("A point cannot exist with <blank> name");
 			return null;
@@ -416,6 +432,7 @@ public class VickyFS
 	 */
 	boolean traverseToNewDirInCurrentDir(final String exisingPointName)
 	{
+		System.out.println("  >>> traverseToNewDirInCurrentDir called with path:" + exisingPointName);
 		if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
 			System.err.println("A directory cannot exist with <blank> name");
 			return false;
@@ -443,6 +460,7 @@ public class VickyFS
 
 	boolean traverseUpOneLevel()
 	{
+		System.out.println("  >>> traverseUpOneLevel called with <>");
 		if (currentDir.parentPoint != null) {
 			currentDir = currentDir.parentPoint;
 			return true;
@@ -455,6 +473,7 @@ public class VickyFS
 
 	int vread(final int fd, final int size, final int offset, final ByteBuffer buf)
 	{
+		System.out.println("  >>> vread called with fd:" + fd + " and " + size + " bytes");
 		if (openFileMap.containsKey(fd)) {
 			final VPoint file = openFileMap.get(fd);
 			final int lengthRead = Math.min(offset + size, file.contents.size());
@@ -471,6 +490,7 @@ public class VickyFS
 
 	int vwrite(final int fd, final int size, final int offset, final ByteBuffer buf)
 	{
+		System.out.println("  >>> vwrite called with fd:" + fd + " and size: " + size);
 		if (openFileMap.containsKey(fd)) {
 			if (addSpaceOf(offset + size) == false) {
 				System.err.println("Ran out of space.");
