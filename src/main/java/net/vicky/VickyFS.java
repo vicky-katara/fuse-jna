@@ -17,7 +17,7 @@ import net.fusejna.ErrorCodes;
 public class VickyFS
 {
 	public static boolean DEBUG_MODE_ON = false;
-	public static boolean DEBUG_FILE_SIZE_MODE_ON = true;
+	public static boolean DEBUG_FILE_SIZE_MODE_ON = false;
 
 	static Byte[] getLarge(final byte[] arr)
 	{
@@ -328,7 +328,7 @@ public class VickyFS
 		}
 		remaining_space += spaceRecovered;
 		if (VickyFS.DEBUG_FILE_SIZE_MODE_ON) {
-			System.out.println("New space added: " + spaceRecovered + " Remaining: " + remaining_space + " Total: " + size);
+			System.out.println("Space recovered: " + spaceRecovered + " Remaining: " + remaining_space + " Total: " + size);
 		}
 	}
 
@@ -337,7 +337,7 @@ public class VickyFS
 		final int newSpaceNeeded = oldDataSize; // char is 2 bytes
 		remaining_space += newSpaceNeeded;
 		if (VickyFS.DEBUG_FILE_SIZE_MODE_ON) {
-			System.out.println("New space added: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
+			System.out.println("Space recovered: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
 		}
 		return true;
 	}
