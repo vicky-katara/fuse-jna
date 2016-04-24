@@ -245,7 +245,7 @@ public class VickyFS
 			}
 		}
 		System.err.println("Should not be here. openFileInCurrentDir.");
-		return -1;
+		return -ErrorCodes.ENOENT();
 	}
 
 	void recoverSpaceFor(final VPoint removalPoint)
