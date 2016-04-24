@@ -215,14 +215,14 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int mkdir(final String path, final ModeWrapper mode)
 	{
 		System.out.println("mkdir called with " + path);
-		return openVFS.create_point(path, VPoint.IS_DIRECTORY) == true ? 0 : -1;
+		return openVFS.create_point(path, VPoint.IS_DIRECTORY);
 	}
 
 	@Override
 	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
 		System.out.println("mknod called with " + path);
-		return openVFS.create_point(path, VPoint.IS_FILE) == true ? 0 : -1;
+		return openVFS.create_point(path, VPoint.IS_FILE);
 	}
 
 	@Override
@@ -232,13 +232,13 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		final int existingFD = openVFS.open_file(path);
 		if (existingFD != -1) {
 			info.fh(existingFD);
-			return existingFD;
+			return 0;
 		}
 		else {
 			openVFS.create_point(path, VPoint.IS_FILE);
 			final int newFD = openVFS.open_file(path);
 			info.fh(newFD);
-			return newFD;
+			return 0;
 		}
 	}
 

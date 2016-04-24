@@ -75,7 +75,7 @@ public class VickyFS
 
 	VickyFS(final int size)
 	{
-		lastAllocatedFD = -1;
+		lastAllocatedFD = 100;
 		rootDir = new VPoint("/", VPoint.IS_DIRECTORY, null);
 		currentDir = rootDir;
 		openFileMap = new HashMap<Integer, VPoint>();
@@ -127,12 +127,16 @@ public class VickyFS
 		}
 	}
 
-	boolean create_point(final String path, final boolean type)
+	int create_point(final String path, final boolean type)
 	{
 		// save currentDir
 		final VPoint oldCurrent = currentDir;
 		final String newPointName = resolvePath(path);
-		final boolean success = currentDir.addChildToDir(new VPoint(newPointName, type, currentDir));
+		final VPoint newPoint = new VPoint(newPointName, type, currentDir);
+		if (generateSpaceFor(newPoint) == false) {
+			return -ErrorCodes.ENOMEM();
+		}
+		final int success = currentDir.addChildToDir(newPoint);
 		// load back curretnDir
 		currentDir = oldCurrent;
 		return success;
@@ -162,12 +166,16 @@ public class VickyFS
 		}
 	}
 
-	boolean createPoint(final String path, final boolean type)
+	int createPoint(final String path, final boolean type)
 	{
 		// save currentDir
 		final VPoint oldCurrent = currentDir;
 		final String newPointName = resolvePath(path);
-		final boolean success = currentDir.addChildToDir(new VPoint(newPointName, type, currentDir));
+		final VPoint newPoint = new VPoint(newPointName, type, currentDir);
+		if (generateSpaceFor(newPoint) == false) {
+			return -ErrorCodes.ENOMEM();
+		}
+		final int success = currentDir.addChildToDir(newPoint);
 		// load back curretnDir
 		currentDir = oldCurrent;
 		return success;
@@ -509,23 +517,23 @@ class VPoint
 		}
 	}
 
-	boolean addChildToDir(final VPoint childPoint)
+	int addChildToDir(final VPoint childPoint)
 	{
 		if (pointType == VPoint.IS_FILE) {
 			System.err.println(name + " is a File. Cannot add " + childPoint.name + " to it.");
-			return false;
+			return -ErrorCodes.ENOTDIR();
 		}
 		else {
 			if (childpoints.contains(childPoint)) {
 				System.err.println(name + " already contains " + childPoint.name + " in it.");
-				return false;
+				return -ErrorCodes.EEXIST();
 			}
 			if (childPoint.parentPoint.name != name) {
 				System.err.println("Parents don't match.. Not adding..");
-				return false;
+				return -ErrorCodes.ECANCELED();
 			}
 			childpoints.add(childPoint);
-			return true;
+			return 0;
 		}
 	}
 
