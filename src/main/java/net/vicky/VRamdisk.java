@@ -82,7 +82,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
-		System.out.println("create called with " + path + " on " + openVFS);
+		System.out.println("create called with " + path + "fd: " + info.fh() + " on " + openVFS);
 		final int existing = open(path, info);
 		if (existing < 0) {
 			return mknod(path, mode, 0);
@@ -228,9 +228,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int open(final String path, final FileInfoWrapper info)
 	{
-		System.out.println("open called with " + path + " on " + openVFS);
+		System.out.println("open called with " + path + "fd: " + info.fh() + " on " + openVFS);
 		final int existingFD = openVFS.open_file(path);
-		System.out.println("Open: existingFD " + existingFD);
+		System.out.println("Open fuse: existingFD " + existingFD);
 		if (existingFD < 0) {
 			return existingFD;
 		}
@@ -243,7 +243,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int opendir(final String path, final FileInfoWrapper info)
 	{
-		System.out.println("opendir called with " + path);
+		System.out.println("opendir called with " + path + " and fh: " + info.fh());
 		return openVFS.change_dir(path) == true ? 0 : -1;
 	}
 
