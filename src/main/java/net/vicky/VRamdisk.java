@@ -31,7 +31,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			}
 			System.exit(1);
 		}
-		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
+		final long capacity = Integer.parseInt(args[1]) * 1024 * 1024;
 		if (VickyFS.DEBUG_MODE_ON) {
 			System.out.println("Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
 		}
@@ -40,7 +40,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 
 	VickyFS openVFS;
 
-	VRamdisk(final int size)
+	VRamdisk(final long size)
 	{
 		openVFS = new VickyFS(size);
 	}

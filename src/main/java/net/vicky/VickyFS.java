@@ -85,9 +85,9 @@ public class VickyFS
 	HashMap<Integer, VPoint> openFileMap;
 	int lastAllocatedFD;
 	// String current_path_str;
-	int size, remaining_space;
+	long size, remaining_space;
 
-	VickyFS(final int size)
+	VickyFS(final long size)
 	{
 		lastAllocatedFD = 100;
 		rootDir = new VPoint("/", VPoint.IS_DIRECTORY, null);
