@@ -89,7 +89,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			System.out.println(path + " already exists");
 		}
 		info.fh(newFD);
-		return newFD;
+		return 0;
 	}
 
 	@Override
