@@ -134,7 +134,7 @@ public class VickyFS
 		}
 		else {
 			if (VickyFS.DEBUG_MODE_ON) {
-				System.out.println(this);
+				System.out.println(rootDir.name);
 			}
 			return false;
 		}
@@ -705,7 +705,7 @@ class VPoint
 	boolean removeChildFromDir(final VPoint childPoint)
 	{
 		if (VickyFS.DEBUG_MODE_ON) {
-			System.out.println(this);
+			System.out.println(name);
 		}
 		if (childpoints.contains(childPoint)) {
 			childpoints.remove(childPoint);

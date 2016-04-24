@@ -107,7 +107,8 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
 		if (VickyFS.DEBUG_MODE_ON) {
-			System.out.println("===============  create called with " + path + " & fd: " + info.fh() + " on " + openVFS);
+			System.out.println(
+					"===============  create called with " + path + " & fd: " + info.fh() + " on " + openVFS.rootDir.name);
 		}
 		final int existing = open(path, info);
 		if (existing < 0) {
@@ -308,7 +309,8 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int open(final String path, final FileInfoWrapper info)
 	{
 		if (VickyFS.DEBUG_MODE_ON) {
-			System.out.println("===============  open called with " + path + "fd: " + info.fh() + " on " + openVFS);
+			System.out.println(
+					"===============  open called with " + path + "fd: " + info.fh() + " on " + openVFS.currentDir.name);
 		}
 		final int existingFD = openVFS.open_file(path);
 		if (VickyFS.DEBUG_MODE_ON) {
