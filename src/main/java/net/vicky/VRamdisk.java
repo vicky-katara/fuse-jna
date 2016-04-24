@@ -268,7 +268,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		}
 		else {
 			filler.add(toBeRead.returnChildPoints());
-			return -1;
+			return 0;
 		}
 	}
 
