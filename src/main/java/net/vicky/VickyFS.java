@@ -577,7 +577,7 @@ public class VickyFS
 			final int lengthRead = Math.min(offset + size, file.contents.size());
 			final Byte[] bigByteArr = file.contents.subList(offset, lengthRead).toArray(new Byte[] {});
 			if (VickyFS.DEBUG_MODE_ON) {
-				System.out.println(Arrays.toString(bigByteArr) + " read from " + file.name);
+				System.out.println(bigByteArr.length + " bytes read from " + file.name);
 			}
 			buf.put(getSmall(bigByteArr));
 			return bigByteArr.length;
@@ -609,7 +609,7 @@ public class VickyFS
 			file.contents.removeAll(file.contents.subList(newOffset, file.contents.size()));
 			file.contents.addAll(newOffset, Arrays.asList(getLarge(byteArr)));
 			if (VickyFS.DEBUG_MODE_ON) {
-				System.out.println(file.name + " now contains :" + file.contents);
+				System.out.println(file.name + " now contains :" + file.contents.size() + " bytes");
 			}
 			return size;
 		}
