@@ -88,7 +88,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			return mknod(path, mode, 0);
 		}
 		else {
-			return 0;
+			return -ErrorCodes.EEXIST();
 		}
 	}
 
@@ -231,8 +231,13 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		System.out.println("open called with " + path + " on " + openVFS);
 		final int existingFD = openVFS.open_file(path);
 		System.out.println("Open: existingFD " + existingFD);
-		info.fh(existingFD);
-		return 0;
+		if (existingFD < 0) {
+			return existingFD;
+		}
+		else {
+			info.fh(existingFD);
+			return 0;
+		}
 	}
 
 	@Override
