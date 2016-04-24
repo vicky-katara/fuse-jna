@@ -5,4 +5,4 @@ unzip gradle*
 cd gradle*/bin/
 export PATH=$PATH:$(pwd)
 cd ../..
-chmod 777 ramdisk.sh
+chmod 777 ramdisk
