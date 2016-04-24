@@ -473,18 +473,18 @@ public class VickyFS
 		if (openFileMap.containsKey(fd)) {
 			if (addSpaceOf(offset + size) == false) {
 				System.err.println("Ran out of space.");
-				return -ErrorCodes.ENOMEM();
+				return 0;
 			}
 			final byte[] byteArr = new byte[size];
 			buf.get(byteArr);
 			final VPoint file = openFileMap.get(fd);
 			file.contents.addAll(offset, Arrays.asList(getLarge(byteArr)));
 			System.out.println(file.name + " now contains :" + file.contents);
-			return 0;
+			return size;
 		}
 		else {
 			System.err.println("No Such FD Mapped to an Open File");
-			return -ErrorCodes.EBADF();
+			return 0;
 		}
 	}
 }
