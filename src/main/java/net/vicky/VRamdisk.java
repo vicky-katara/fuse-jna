@@ -91,7 +91,14 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		System.out.println("===============  create called with " + path + " & fd: " + info.fh() + " on " + openVFS);
 		final int existing = open(path, info);
 		if (existing < 0) {
-			return mknod(path, mode, 0);
+			final int mknod_result = mknod(path, mode, 0);
+			if (mknod_result == 0) {
+				return open(path, info);
+			}
+			else {
+				System.err.println("mknod failed with " + mknod_result);
+				return mknod_result;
+			}
 		}
 		else {
 			return -ErrorCodes.EEXIST();
