@@ -266,7 +266,7 @@ public class VickyFS
 			if (toBeRemoved.isFile()) {
 				final Integer openFD = getFDForOpenFileIfExits(toBeRemoved.name);
 				final VPoint openPoint = openFileMap.get(openFD);
-				if (openPoint.parentPoint == currentDir) {
+				if (openPoint != null && openPoint.parentPoint == currentDir) {
 					close_file_point(openFD);
 				}
 			}
