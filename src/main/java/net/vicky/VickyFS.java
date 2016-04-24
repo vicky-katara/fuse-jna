@@ -295,18 +295,24 @@ public class VickyFS
 
 	String resolvePath(final String originalPath)
 	{
-		final String[] pathArr = originalPath.split("/");
-		if (pathArr.length == 1) {
-			// System.out.println("Nothing to resolve");
-			return originalPath;
-		}
-		else {
-			for (int i = 0; i < pathArr.length - 1; i++) {
-				if (traverseToNewDirInCurrentDir(pathArr[i]) == false) {
-					return null;
-				}
+		try {
+			final String[] pathArr = originalPath.split("/");
+			if (pathArr.length == 1) {
+				// System.out.println("Nothing to resolve");
+				return originalPath;
 			}
-			return pathArr[pathArr.length - 1];
+			else {
+				for (int i = 0; i < pathArr.length - 1; i++) {
+					if (traverseToNewDirInCurrentDir(pathArr[i]) == false) {
+						return null;
+					}
+				}
+				return pathArr[pathArr.length - 1];
+			}
+		}
+		catch (final Exception e) {
+			System.out.println("resolve Path called for " + originalPath);
+			return null;
 		}
 	}
 
