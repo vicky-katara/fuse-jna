@@ -304,6 +304,11 @@ public class VickyFS
 				// System.out.println("Nothing to resolve");
 				return originalPath;
 			}
+			else if (originalPath.lastIndexOf('/') == 0) {
+				final String ret = originalPath.substring(1, originalPath.length());
+				System.out.println("removed / from start of " + originalPath + " --> " + ret);
+				return ret;
+			}
 			else {
 				for (int i = 0; i < pathArr.length - 1; i++) {
 					if (traverseToNewDirInCurrentDir(pathArr[i]) == false) {

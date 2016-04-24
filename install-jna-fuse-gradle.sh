@@ -4,3 +4,5 @@ wget https://downloads.gradle.org/distributions/gradle-2.12-bin.zip
 unzip gradle*
 cd gradle*/bin/
 export PATH=$PATH:$(pwd)
+cd ../..
+chmod 777 ramdisk.sh
