@@ -394,7 +394,7 @@ public class VickyFS
 	@Override
 	public String toString()
 	{
-		return "Root>" + rootDir.toString() + "\n CurrentDir: " + currentDir.toString();
+		return "Root>" + rootDir.toString() + "\n CurrentDir: " + currentDir.toString() + "-- Open: " + openFileMap.toString();
 	}
 
 	/*
