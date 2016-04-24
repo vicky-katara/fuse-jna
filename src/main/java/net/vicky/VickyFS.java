@@ -216,7 +216,7 @@ public class VickyFS
 		if (newPoint.isFile()) {
 			newSpaceNeeded += newPoint.contents.size();
 		}
-		if (newSpaceNeeded < remaining_space) {
+		if (newSpaceNeeded <= remaining_space) {
 			remaining_space -= newSpaceNeeded;
 			if (VickyFS.DEBUG_FILE_SIZE_MODE_ON) {
 				System.out.println("New space added: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
@@ -250,7 +250,7 @@ public class VickyFS
 	boolean getSpaceOf(final int newDataSize)
 	{
 		final int newSpaceNeeded = newDataSize; // char is 2 bytes
-		if (newSpaceNeeded < remaining_space) {
+		if (newSpaceNeeded <= remaining_space) {
 			remaining_space -= newSpaceNeeded;
 			if (VickyFS.DEBUG_FILE_SIZE_MODE_ON) {
 				System.out.println("New space added: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
@@ -367,6 +367,8 @@ public class VickyFS
 					close_file_point(openFD);
 				}
 			}
+			// get back space
+			recoverSpaceFor(toBeRemoved);
 		}
 		// load back curretnDir
 		currentDir = oldCurrent;
@@ -378,32 +380,31 @@ public class VickyFS
 	 * (last_index_of_seperator != -1) { current_path_str = current_path_str.substring(0, last_index_of_seperator); return true;
 	 * } else { return false; } }
 	 */
-	boolean removePointUnderCurrentDir(final String exisingPointName)
-	{
-		if (VickyFS.DEBUG_MODE_ON) {
-			System.out.println("  >>> removePointUnderCurrentDir called with path:" + exisingPointName);
-		}
-		if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
-			if (VickyFS.DEBUG_MODE_ON) {
-				System.err.println("A point cannot exist with <blank> name");
-			}
-			return false;
-		}
-		else if (currentDir.searchForChildPoint(exisingPointName) == false) {
-			// if (VickyFS.DEBUG_MODE_ON) System.err.println(currentDir.name + " does not contains " + exisingPointName + " .");
-			return false;
-		}
-		else {
-			final VPoint toBeRemoved = currentDir.returnSubPoint(exisingPointName);
-			recoverSpaceFor(toBeRemoved);
-			if (VickyFS.DEBUG_MODE_ON) {
-				System.out.println(toBeRemoved.name + " removed from under " + currentDir.name);
-			}
-			currentDir.removeChildFromDir(toBeRemoved);
-			return true;
-		}
-	}
-
+	// boolean removePointUnderCurrentDir(final String exisingPointName)
+	// {
+	// if (VickyFS.DEBUG_MODE_ON) {
+	// System.out.println(" >>> removePointUnderCurrentDir called with path:" + exisingPointName);
+	// }
+	// if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
+	// if (VickyFS.DEBUG_MODE_ON) {
+	// System.err.println("A point cannot exist with <blank> name");
+	// }
+	// return false;
+	// }
+	// else if (currentDir.searchForChildPoint(exisingPointName) == false) {
+	// // if (VickyFS.DEBUG_MODE_ON) System.err.println(currentDir.name + " does not contains " + exisingPointName + " .");
+	// return false;
+	// }
+	// else {
+	// final VPoint toBeRemoved = currentDir.returnSubPoint(exisingPointName);
+	// recoverSpaceFor(toBeRemoved);
+	// if (VickyFS.DEBUG_MODE_ON) {
+	// System.out.println(toBeRemoved.name + " removed from under " + currentDir.name);
+	// }
+	// currentDir.removeChildFromDir(toBeRemoved);
+	// return true;
+	// }
+	// }
 	String resolvePath(final String originalPath)
 	{
 		if (VickyFS.DEBUG_MODE_ON) {
