@@ -236,7 +236,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			return existingFD;
 		}
 		else {
-			System.out.println("open Returngin " + 0);
+			System.out.println("open Returngin success " + 0);
 			info.fh(existingFD);
 			return 0;
 		}
