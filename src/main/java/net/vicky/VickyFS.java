@@ -384,6 +384,10 @@ public class VickyFS
 		final VPoint oldCurrent = currentDir;
 		currentDir = rootDir;
 		final String newPointName = resolvePath(path);
+		if (newPointName == null) {
+			System.out.println("Could not resolve path");
+			return null;
+		}
 		final VPoint return_point;
 		if (newPointName.equals(currentDir.name)) {
 			return_point = currentDir;
