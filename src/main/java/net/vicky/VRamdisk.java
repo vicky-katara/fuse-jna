@@ -21,7 +21,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 {
 	public static void main(final String[] args) throws FuseException
 	{
-		if (args.length != 2) {
+		if (args.length < 2) {
 			System.err.println("Usage: ramdisk <mountpoint> <size>");
 			System.err.println("You gave wrongly, " + Arrays.toString(args));
 			System.exit(1);
