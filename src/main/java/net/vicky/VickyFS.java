@@ -99,6 +99,9 @@ public class VickyFS
 
 	boolean change_dir(final String path)
 	{
+		if (path.equals("/") && currentDir == rootDir) {
+			return true;
+		}
 		final String remainingPath = resolvePath(path);
 		if (traverseToNewDirInCurrentDir(remainingPath) == true) {
 			return true;
@@ -311,7 +314,7 @@ public class VickyFS
 			}
 		}
 		catch (final Exception e) {
-			System.out.println("resolve Path called for " + originalPath);
+			System.out.println("Exception : resolve Path called for " + originalPath);
 			return null;
 		}
 	}
