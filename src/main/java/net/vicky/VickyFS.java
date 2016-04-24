@@ -99,7 +99,8 @@ public class VickyFS
 
 	boolean change_dir(final String path)
 	{
-		if (path.equals("/") && currentDir == rootDir) {
+		if (path.equals("/") || path.equals("")) {
+			currentDir = rootDir;
 			return true;
 		}
 		final String remainingPath = resolvePath(path);
@@ -107,6 +108,7 @@ public class VickyFS
 			return true;
 		}
 		else {
+			System.out.println(this);
 			return false;
 		}
 	}
@@ -331,6 +333,27 @@ public class VickyFS
 			return rootDir;
 		}
 		final VPoint oldCurrent = currentDir;
+		final String newPointName = resolvePath(path);
+		final VPoint return_point;
+		if (newPointName.equals(currentDir.name)) {
+			return_point = currentDir;
+		}
+		else {
+			return_point = returnPointInCurrentDir(newPointName);
+		}
+		// load back curretnDir
+		currentDir = oldCurrent;
+		return return_point;
+	}
+
+	VPoint return_point_fully_qualified(final String path)
+	{
+		// save currentDir
+		if (currentDir == rootDir && path.equals("/")) {
+			return rootDir;
+		}
+		final VPoint oldCurrent = currentDir;
+		currentDir = rootDir;
 		final String newPointName = resolvePath(path);
 		final VPoint return_point;
 		if (newPointName.equals(currentDir.name)) {
