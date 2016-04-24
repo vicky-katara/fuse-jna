@@ -23,9 +23,10 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	{
 		if (args.length != 2) {
 			System.err.println("Usage: ramdisk <mountpoint> <size>");
-			System.err.println("You gave " + Arrays.toString(args));
+			System.err.println("You gave wrongly, " + Arrays.toString(args));
 			System.exit(1);
 		}
+		System.err.println("You gave " + Arrays.toString(args));
 		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
 		new VRamdisk(capacity).mount(args[0]);
 	}
