@@ -29,7 +29,8 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		}
 		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
 		System.out.println("Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
-		new VRamdisk(capacity).mount(args[0]);
+		// new VRamdisk(capacity).mount(args[0]);
+		new VRamdisk(capacity).mount(new File(args[0]), false);
 	}
 
 	VickyFS openVFS;
@@ -115,7 +116,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int fgetattr(final String path, final StatWrapper stat, final FileInfoWrapper info)
 	{
-		System.out.println("===============  fgetattr called with " + path + " fd: " + info.fh() + " stat:" + stat.toString());
+		System.out.println("===============  fgetattr called with " + path + " fd: " + info.fh());
 		return getattr(path, stat);
 	}
 
