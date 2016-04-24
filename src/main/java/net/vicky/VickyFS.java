@@ -322,35 +322,20 @@ public class VickyFS
 	String resolvePath(final String originalPath)
 	{
 		System.out.println("  >>> resolvePath called with path:" + originalPath);
-		try {
-			currentDir = rootDir;
-			final String[] pathArr = originalPath.split("/");
-			if (pathArr.length == 1) {
-				// System.out.println("Nothing to resolve");
-				return originalPath;
-			}
-			else if (originalPath.lastIndexOf('/') == 0) {
-				final String ret = originalPath.substring(1, originalPath.length());
-				System.out.println("removed / from start of " + originalPath + " --> " + ret);
-				return ret;
-			}
-			else {
-				for (int i = 0; i < pathArr.length - 1; i++) {
-					if (traverseToNewDirInCurrentDir(pathArr[i]) == false) {
-						System.out.println("did not find " + pathArr[i] + " in " + currentDir.name);
-						return null;
-					}
-					else {
-						System.out.println(" entered " + currentDir.name);
-					}
-				}
-				return pathArr[pathArr.length - 1];
-			}
+		currentDir = rootDir;
+		int index = 1;
+		final String[] dirs = originalPath.split("/");
+		if (dirs.length == 0) {
+			System.out.println("Nothing to resolve. Returning " + originalPath);
+			return originalPath;
 		}
-		catch (final Exception e) {
-			System.out.println("Exception : resolve Path called for " + originalPath);
-			return null;
+		while (index < dirs.length - 1) {
+			final String nextDir = dirs[index++];
+			traverseToNewDirInCurrentDir(nextDir);
+			System.out.print("/ >" + nextDir);
 		}
+		System.out.print("Resolved");
+		return dirs[dirs.length - 1];
 	}
 
 	VPoint return_point(final String path)
