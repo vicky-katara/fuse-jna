@@ -486,6 +486,7 @@ public class VickyFS
 			buf.get(byteArr);
 			final VPoint file = openFileMap.get(fd);
 			final int newOffset = Math.min(offset, file.contents.size());
+			file.contents.removeAll(file.contents.subList(newOffset, file.contents.size()));
 			file.contents.addAll(newOffset, Arrays.asList(getLarge(byteArr)));
 			System.out.println(file.name + " now contains :" + file.contents);
 			return size;
