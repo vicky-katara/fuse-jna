@@ -230,14 +230,14 @@ public class VickyFS
 			return existingFD;
 		}
 		else if (filePointName == null || filePointName.equals("") || filePointName.length() == 0) {
-			System.err.println("A point cannot be created with <blank> name");
-			return -1;
+			System.err.println("A point cannot exist with <blank> name");
+			return -ErrorCodes.ENAMETOOLONG();
 		}
 		else if (currentDir.searchForChildPoint(filePointName) == true) {
 			final VPoint toBeOpened = currentDir.returnSubPoint(filePointName);
 			if (toBeOpened.isDirectory()) {
 				System.err.println(toBeOpened.name + " is not a file. Cannot open...");
-				return -1;
+				return -ErrorCodes.EISDIR();
 			}
 			else {
 				openFileMap.put(++lastAllocatedFD, toBeOpened);

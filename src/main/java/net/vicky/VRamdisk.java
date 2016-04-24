@@ -228,7 +228,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int open(final String path, final FileInfoWrapper info)
 	{
-		System.out.println("open called with " + path + " on " + this);
+		System.out.println("open called with " + path + " on " + openVFS);
 		final int existingFD = openVFS.open_file(path);
 		if (existingFD != -1) {
 			info.fh(existingFD);
