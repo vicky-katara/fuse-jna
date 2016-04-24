@@ -98,25 +98,6 @@ public class VickyFS
 		remaining_space = size;
 	}
 
-	boolean addSpaceOf(final int newDataSize)
-	{
-		final int newSpaceNeeded = newDataSize * 2; // char is 2 bytes
-		if (newSpaceNeeded < remaining_space) {
-			remaining_space -= newSpaceNeeded;
-			if (VickyFS.DEBUG_MODE_ON) {
-				System.out.println("New space added: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
-			}
-			return true;
-		}
-		else {
-			if (VickyFS.DEBUG_MODE_ON) {
-				System.err.println(
-						"Tried to add New space: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
-			}
-			return false;
-		}
-	}
-
 	boolean change_dir(final String path)
 	{
 		if (VickyFS.DEBUG_MODE_ON) {
@@ -230,7 +211,7 @@ public class VickyFS
 		if (VickyFS.DEBUG_MODE_ON) {
 			System.out.println("  >>> generateSpaceFor called with path:" + newPoint);
 		}
-		int newSpaceNeeded = newPoint.name.length() * 2; // char is 2 bytes
+		int newSpaceNeeded = newPoint.name.length(); // char is 2 bytes
 		if (newPoint.isFile()) {
 			newSpaceNeeded += newPoint.contents.size();
 		}
@@ -263,6 +244,25 @@ public class VickyFS
 			}
 		}
 		return null;
+	}
+
+	boolean getSpaceOf(final int newDataSize)
+	{
+		final int newSpaceNeeded = newDataSize; // char is 2 bytes
+		if (newSpaceNeeded < remaining_space) {
+			remaining_space -= newSpaceNeeded;
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.out.println("New space added: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
+			}
+			return true;
+		}
+		else {
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(
+						"Tried to add New space: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
+			}
+			return false;
+		}
 	}
 
 	int open_file(final String path)
@@ -321,7 +321,7 @@ public class VickyFS
 		if (VickyFS.DEBUG_MODE_ON) {
 			System.out.println("  >>> recoverSpaceFor called with path:" + removalPoint);
 		}
-		int spaceRecovered = removalPoint.name.length() * 2; // char is 2 bytes
+		int spaceRecovered = removalPoint.name.length(); // char is 2 bytes
 		if (removalPoint.isFile()) {
 			spaceRecovered += removalPoint.contents.size();
 		}
@@ -329,6 +329,16 @@ public class VickyFS
 		if (VickyFS.DEBUG_MODE_ON) {
 			System.out.println("New space added: " + spaceRecovered + " Remaining: " + remaining_space + " Total: " + size);
 		}
+	}
+
+	boolean recoverSpaceOf(final int oldDataSize)
+	{
+		final int newSpaceNeeded = oldDataSize; // char is 2 bytes
+		remaining_space += newSpaceNeeded;
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("New space added: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
+		}
+		return true;
 	}
 
 	boolean remove_point(final String path)
@@ -596,7 +606,7 @@ public class VickyFS
 			System.out.println("  >>> vwrite called with fd:" + fd + " and size: " + size);
 		}
 		if (openFileMap.containsKey(fd)) {
-			if (addSpaceOf(offset + size) == false) {
+			if (getSpaceOf(offset + size) == false) {
 				if (VickyFS.DEBUG_MODE_ON) {
 					System.err.println("Ran out of space.");
 				}
@@ -606,6 +616,10 @@ public class VickyFS
 			buf.get(byteArr);
 			final VPoint file = openFileMap.get(fd);
 			final int newOffset = Math.min(offset, file.contents.size());
+			final int spaceRecovered = file.contents.size() - newOffset;
+			if (spaceRecovered > 0) {
+				recoverSpaceOf(spaceRecovered);
+			}
 			file.contents.removeAll(file.contents.subList(newOffset, file.contents.size()));
 			file.contents.addAll(newOffset, Arrays.asList(getLarge(byteArr)));
 			if (VickyFS.DEBUG_MODE_ON) {

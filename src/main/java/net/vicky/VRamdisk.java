@@ -446,7 +446,8 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		if (VickyFS.DEBUG_MODE_ON) {
 			System.out.println(" --- statfs unimplemented called --- ");
 		}
-		// TODO Auto-generated method stub
+		wrapper.set(1, 1, openVFS.remaining_space, openVFS.remaining_space, openVFS.size, openVFS.remaining_space,
+				openVFS.remaining_space, openVFS.size);
 		return 0;
 	}
 
