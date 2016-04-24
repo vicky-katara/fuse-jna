@@ -466,7 +466,7 @@ public class VickyFS
 			final Byte[] bigByteArr = file.contents.subList(offset, lengthRead).toArray(new Byte[] {});
 			System.out.println(Arrays.toString(bigByteArr) + " read from " + file.name);
 			buf.put(getSmall(bigByteArr));
-			return 0;
+			return bigByteArr.length;
 		}
 		else {
 			System.err.println("No Such FD Mapped to an Open File");
