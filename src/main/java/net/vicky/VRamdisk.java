@@ -263,9 +263,10 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		final VPoint toBeRead = openVFS.return_point(path);
 		if (toBeRead == null) {
 			System.err.println("No file returned by return_point: " + path);
+			return -ErrorCodes.ENOENT();
 		}
-		if (toBeRead.isFile()) {
-			return -1;
+		else if (toBeRead.isFile()) {
+			return -ErrorCodes.ENOTDIR();
 		}
 		else {
 			filler.add(toBeRead.returnChildPoints());

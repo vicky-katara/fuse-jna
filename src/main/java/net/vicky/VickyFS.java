@@ -332,7 +332,13 @@ public class VickyFS
 		}
 		final VPoint oldCurrent = currentDir;
 		final String newPointName = resolvePath(path);
-		final VPoint return_point = returnPointInCurrentDir(newPointName);
+		final VPoint return_point;
+		if (newPointName.equals(currentDir.name)) {
+			return_point = currentDir;
+		}
+		else {
+			return_point = returnPointInCurrentDir(newPointName);
+		}
 		// load back curretnDir
 		currentDir = oldCurrent;
 		return return_point;
@@ -351,7 +357,7 @@ public class VickyFS
 			return null;
 		}
 		else if (currentDir.searchForChildPoint(exisingPointName) == false) {
-			System.err.println(currentDir.name + " does not  contains " + exisingPointName + " .");
+			System.err.println(currentDir.name + " does not contain " + exisingPointName);
 			return null;
 		}
 		else {
