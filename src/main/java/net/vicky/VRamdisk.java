@@ -232,9 +232,11 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		final int existingFD = openVFS.open_file(path);
 		System.out.println("Open fuse: existingFD " + existingFD);
 		if (existingFD < 0) {
+			System.out.println("open Returngin " + existingFD);
 			return existingFD;
 		}
 		else {
+			System.out.println("open Returngin " + 0);
 			info.fh(existingFD);
 			return 0;
 		}
