@@ -334,7 +334,7 @@ public class VickyFS
 			traverseToNewDirInCurrentDir(nextDir);
 			System.out.print("/ >" + nextDir);
 		}
-		System.out.println("Resolved");
+		System.out.println("\nResolved");
 		return dirs[dirs.length - 1];
 	}
 
@@ -373,13 +373,7 @@ public class VickyFS
 			System.out.println("Could not resolve path");
 			return null;
 		}
-		final VPoint return_point;
-		if (newPointName.equals(currentDir.name)) {
-			return_point = currentDir;
-		}
-		else {
-			return_point = returnPointInCurrentDir(newPointName);
-		}
+		final VPoint return_point = returnPointInCurrentDir(newPointName);
 		// load back curretnDir
 		currentDir = oldCurrent;
 		return return_point;
