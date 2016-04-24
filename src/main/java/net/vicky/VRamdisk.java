@@ -84,7 +84,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	{
 		System.out.println("create called with " + path + " on " + openVFS);
 		final int existing = open(path, info);
-		if (existing == -ErrorCodes.ENOENT()) {
+		if (existing < 0) {
 			return mknod(path, mode, 0);
 		}
 		else {
@@ -230,7 +230,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	{
 		System.out.println("open called with " + path + " on " + openVFS);
 		final int existingFD = openVFS.open_file(path);
-		System.out.println("Open: existingFD > 0:" + existingFD);
+		System.out.println("Open: existingFD " + existingFD);
 		info.fh(existingFD);
 		return 0;
 	}
