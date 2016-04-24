@@ -233,7 +233,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		if (VickyFS.DEBUG_MODE_ON) {
 			System.out.println(" --- getOptions unimplemented called --- ");
 		}
-		return new String[] { "-s", "-f", "-d" };
+		return new String[] { "-s" };
 	}
 
 	@Override
