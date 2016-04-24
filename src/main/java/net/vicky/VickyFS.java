@@ -311,6 +311,7 @@ public class VickyFS
 	String resolvePath(final String originalPath)
 	{
 		try {
+			currentDir = rootDir;
 			final String[] pathArr = originalPath.split("/");
 			if (pathArr.length == 1) {
 				// System.out.println("Nothing to resolve");
