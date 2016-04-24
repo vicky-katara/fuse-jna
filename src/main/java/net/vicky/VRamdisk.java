@@ -26,8 +26,8 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			System.err.println("You gave wrongly, " + Arrays.toString(args));
 			System.exit(1);
 		}
-		System.err.println("You gave " + Arrays.toString(args));
 		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
+		System.out.println("Ramdisk of size " + capacity + " loaded at " + args[0] + ".");
 		new VRamdisk(capacity).mount(args[0]);
 	}
 
@@ -247,7 +247,11 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
 	{
+		System.out.println("Readdir called with " + path);
 		final VPoint toBeRead = openVFS.return_point(path);
+		if (toBeRead == null) {
+			System.err.println("No file returned by return_point: " + path);
+		}
 		if (toBeRead.isFile()) {
 			return -1;
 		}

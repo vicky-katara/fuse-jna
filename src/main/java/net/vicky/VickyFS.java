@@ -322,6 +322,9 @@ public class VickyFS
 	VPoint return_point(final String path)
 	{
 		// save currentDir
+		if (currentDir == rootDir && path.equals("/")) {
+			return rootDir;
+		}
 		final VPoint oldCurrent = currentDir;
 		final String newPointName = resolvePath(path);
 		final VPoint return_point = returnPointInCurrentDir(newPointName);
