@@ -108,7 +108,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int fgetattr(final String path, final StatWrapper stat, final FileInfoWrapper info)
 	{
-		System.out.println(" --- fgetattr unimplemented called --- ");
+		System.out.println("===============  fgetattr called with " + path + " fd: " + info.fh() + " stat:" + stat.toString());
 		// TODO Auto-generated method stub
 		return 0;
 	}
