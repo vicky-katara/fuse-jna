@@ -324,6 +324,7 @@ public class VickyFS
 			else {
 				for (int i = 0; i < pathArr.length - 1; i++) {
 					if (traverseToNewDirInCurrentDir(pathArr[i]) == false) {
+						System.out.println("did not find " + pathArr[i] + " in " + currentDir.name);
 						return null;
 					}
 				}
