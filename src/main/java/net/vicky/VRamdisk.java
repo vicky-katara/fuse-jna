@@ -27,7 +27,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			System.exit(1);
 		}
 		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
-		System.out.println("Ramdisk of size " + capacity + " loaded at " + args[0] + ".");
+		System.out.println("Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
 		new VRamdisk(capacity).mount(args[0]);
 	}
 
@@ -81,6 +81,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
+		System.out.println("create called with " + path);
 		openVFS.create_point(path, VPoint.IS_FILE);
 		final int newFD = openVFS.open_file(path);
 		if (newFD == -1) {
@@ -106,6 +107,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int flush(final String path, final FileInfoWrapper info)
 	{
+		System.out.println("flush called with " + path);
 		if (openVFS.close_file_point((int) info.fh()) == true) {
 			return 0;
 		}
@@ -136,12 +138,16 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int getattr(final String path, final StatWrapper stat)
 	{
+		System.out.println("getattr called with " + path);
 		VPoint point;
 		if (path.equals("/") && openVFS.currentDir.name.equals("/")) {
 			point = openVFS.currentDir;
 		}
 		else {
 			point = openVFS.return_point(path);
+		}
+		if (point == null) {
+			return -1;
 		}
 		stat.ino(point.hashCode());
 		if (point.isDirectory()) {
@@ -207,18 +213,21 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int mkdir(final String path, final ModeWrapper mode)
 	{
+		System.out.println("mkdir called with " + path);
 		return openVFS.create_point(path, VPoint.IS_DIRECTORY) == true ? 0 : -1;
 	}
 
 	@Override
 	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
+		System.out.println("mknod called with " + path);
 		return openVFS.create_point(path, VPoint.IS_FILE) == true ? 0 : -1;
 	}
 
 	@Override
 	public int open(final String path, final FileInfoWrapper info)
 	{
+		System.out.println("open called with " + path);
 		final int existingFD = openVFS.open_file(path);
 		if (existingFD != -1) {
 			info.fh(existingFD);
@@ -235,19 +244,21 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int opendir(final String path, final FileInfoWrapper info)
 	{
+		System.out.println("opendir called with " + path);
 		return openVFS.change_dir(path) == true ? 0 : -1;
 	}
 
 	@Override
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
+		System.out.println("read called with " + path);
 		return openVFS.vread((int) info.fh(), (int) size, (int) offset, buffer) == true ? 0 : -1;
 	}
 
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
 	{
-		System.out.println("Readdir called with " + path);
+		System.out.println("readdir called with " + path);
 		final VPoint toBeRead = openVFS.return_point(path);
 		if (toBeRead == null) {
 			System.err.println("No file returned by return_point: " + path);
@@ -299,6 +310,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int rmdir(final String path)
 	{
+		System.out.println("rmdir called with " + path);
 		return openVFS.remove_point(path) == true ? 0 : -1;
 	}
 
@@ -334,6 +346,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int unlink(final String path)
 	{
+		System.out.println("unlink called with " + path);
 		return openVFS.remove_point(path) == true ? 0 : -1;
 	}
 
@@ -348,6 +361,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int write(final String path, final ByteBuffer buf, final long bufSize, final long writeOffset,
 			final FileInfoWrapper info)
 	{
+		System.out.println("write called with " + path);
 		return openVFS.vwrite((int) info.fh(), (int) bufSize, (int) writeOffset, buf) == true ? 0 : -1;
 	}
 }
