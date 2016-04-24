@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.fusejna.ErrorCodes;
+
 /*
  * struct VPoint { char* name; int isDirectory; char* contents; int current_content_capacity; struct Queue *subQueue; struct
  * VPoint *parent; struct OpenVPoint *openContainerForThis;
@@ -441,7 +443,7 @@ public class VickyFS
 		}
 	}
 
-	boolean vread(final int fd, final int size, final int offset, final ByteBuffer buf)
+	int vread(final int fd, final int size, final int offset, final ByteBuffer buf)
 	{
 		if (openFileMap.containsKey(fd)) {
 			final VPoint file = openFileMap.get(fd);
@@ -449,31 +451,31 @@ public class VickyFS
 			final Byte[] bigByteArr = file.contents.subList(offset, lengthRead).toArray(new Byte[] {});
 			System.out.println(Arrays.toString(bigByteArr) + " read from " + file.name);
 			buf.put(getSmall(bigByteArr));
-			return true;
+			return 0;
 		}
 		else {
 			System.err.println("No Such FD Mapped to an Open File");
-			return false;
+			return -ErrorCodes.EBADF();
 		}
 	}
 
-	boolean vwrite(final int fd, final int size, final int offset, final ByteBuffer buf)
+	int vwrite(final int fd, final int size, final int offset, final ByteBuffer buf)
 	{
 		if (openFileMap.containsKey(fd)) {
 			if (addSpaceOf(offset + size) == false) {
 				System.err.println("Ran out of space.");
-				return false;
+				return -ErrorCodes.ENOMEM();
 			}
 			final byte[] byteArr = new byte[size];
 			buf.get(byteArr);
 			final VPoint file = openFileMap.get(fd);
 			file.contents.addAll(offset, Arrays.asList(getLarge(byteArr)));
 			System.out.println(file.name + " now contains :" + file.contents);
-			return true;
+			return 0;
 		}
 		else {
 			System.err.println("No Such FD Mapped to an Open File");
-			return false;
+			return -ErrorCodes.EBADF();
 		}
 	}
 }

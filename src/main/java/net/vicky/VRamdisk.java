@@ -253,7 +253,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
 		System.out.println("read called with " + path);
-		return openVFS.vread((int) info.fh(), (int) size, (int) offset, buffer) == true ? 0 : -1;
+		return openVFS.vread((int) info.fh(), (int) size, (int) offset, buffer);
 	}
 
 	@Override
@@ -364,6 +364,6 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			final FileInfoWrapper info)
 	{
 		System.out.println("write called with " + path);
-		return openVFS.vwrite((int) info.fh(), (int) bufSize, (int) writeOffset, buf) == true ? 0 : -1;
+		return openVFS.vwrite((int) info.fh(), (int) bufSize, (int) writeOffset, buf);
 	}
 }
