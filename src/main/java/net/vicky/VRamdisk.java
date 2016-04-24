@@ -141,8 +141,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int fgetattr(final String path, final StatWrapper stat, final FileInfoWrapper info)
 	{
 		if (VickyFS.DEBUG_MODE_ON) {
-			System.out.println(
-					"===============  fgetattr called with " + path + " fd: " + info.fh() + " stat:" + stat.toString());
+			System.out.println("===============  fgetattr called with " + path + " fd: " + info.fh());
 		}
 		return getattr(path, stat);
 	}
