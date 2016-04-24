@@ -16,7 +16,7 @@ import net.fusejna.ErrorCodes;
  */
 public class VickyFS
 {
-	public static boolean DEBUG_MODE_ON = false;
+	public static boolean DEBUG_MODE_ON = true;
 
 	static Byte[] getLarge(final byte[] arr)
 	{
