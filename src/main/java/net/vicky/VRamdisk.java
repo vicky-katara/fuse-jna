@@ -82,13 +82,13 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
-		System.out.println("create called with " + path);
-		openVFS.create_point(path, VPoint.IS_FILE);
-		final int newFD = openVFS.open_file(path);
-		if (newFD == -1) {
-			System.out.println(path + " already exists");
-		}
-		info.fh(newFD);
+		// System.out.println("create called with " + path);
+		// openVFS.create_point(path, VPoint.IS_FILE);
+		// final int newFD = openVFS.open_file(path);
+		// if (newFD == -1) {
+		// System.out.println(path + " already exists");
+		// }
+		// info.fh(newFD);
 		return 0;
 	}
 
