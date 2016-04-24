@@ -232,13 +232,13 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		final int existingFD = openVFS.open_file(path);
 		if (existingFD != -1) {
 			info.fh(existingFD);
-			return 0;
+			return existingFD;
 		}
 		else {
 			openVFS.create_point(path, VPoint.IS_FILE);
 			final int newFD = openVFS.open_file(path);
 			info.fh(newFD);
-			return 0;
+			return newFD;
 		}
 	}
 
