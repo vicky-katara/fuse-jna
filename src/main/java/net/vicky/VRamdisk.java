@@ -116,10 +116,10 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int flush(final String path, final FileInfoWrapper info)
 	{
 		System.out.println("===============  flush called with " + path);
-		if (openVFS.close_file_point((int) info.fh()) == true) {
-			return 0;
-		}
-		return -1;
+		// if (openVFS.close_file_point((int) info.fh()) == true) {
+		// return 0;
+		// }
+		return 0;
 	}
 
 	@Override
