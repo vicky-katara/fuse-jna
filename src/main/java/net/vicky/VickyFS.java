@@ -240,7 +240,6 @@ public class VickyFS
 				return -ErrorCodes.EISDIR();
 			}
 			else {
-				System.out.println("Add");
 				openFileMap.put(++lastAllocatedFD, toBeOpened);
 				return lastAllocatedFD;
 			}
