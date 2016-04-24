@@ -28,7 +28,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			System.exit(1);
 		}
 		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
-		System.out.println("Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
+		}
 		new VRamdisk(capacity).mount(args[0]);
 	}
 
@@ -42,7 +44,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int access(final String path, final int access)
 	{
-		System.out.println(" --- access unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- access unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -50,21 +54,27 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public void afterUnmount(final File mountPoint)
 	{
-		System.out.println(" --- afterUnmount unimplemented called --- ");
-		// TODO Auto-generated method stub
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- afterUnmount unimplemented called --- ");
+			// TODO Auto-generated method stub
+		}
 	}
 
 	@Override
 	public void beforeMount(final File mountPoint)
 	{
-		System.out.println(" --- beforeMount unimplemented called --- ");
-		// TODO Auto-generated method stub
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- beforeMount unimplemented called --- ");
+			// TODO Auto-generated method stub
+		}
 	}
 
 	@Override
 	public int bmap(final String path, final FileInfoWrapper info)
 	{
-		System.out.println(" --- bmap unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- bmap unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -72,7 +82,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int chmod(final String path, final ModeWrapper mode)
 	{
-		System.out.println(" --- chmod unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- chmod unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -80,7 +92,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int chown(final String path, final long uid, final long gid)
 	{
-		System.out.println(" --- chown unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- chown unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -88,7 +102,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int create(final String path, final ModeWrapper mode, final FileInfoWrapper info)
 	{
-		System.out.println("===============  create called with " + path + " & fd: " + info.fh() + " on " + openVFS);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  create called with " + path + " & fd: " + info.fh() + " on " + openVFS);
+		}
 		final int existing = open(path, info);
 		if (existing < 0) {
 			final int mknod_result = mknod(path, mode, 0);
@@ -108,21 +124,28 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public void destroy()
 	{
-		System.out.println(" --- destroy unimplemented called --- ");
-		// TODO Auto-generated method stub
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- destroy unimplemented called --- ");
+			// TODO Auto-generated method stub
+		}
 	}
 
 	@Override
 	public int fgetattr(final String path, final StatWrapper stat, final FileInfoWrapper info)
 	{
-		System.out.println("===============  fgetattr called with " + path + " fd: " + info.fh() + " stat:" + stat.toString());
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(
+					"===============  fgetattr called with " + path + " fd: " + info.fh() + " stat:" + stat.toString());
+		}
 		return getattr(path, stat);
 	}
 
 	@Override
 	public int flush(final String path, final FileInfoWrapper info)
 	{
-		System.out.println("===============  flush called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  flush called with " + path);
+		}
 		// if (openVFS.close_file_point((int) info.fh()) == true) {
 		// return 0;
 		// }
@@ -132,7 +155,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int fsync(final String path, final int datasync, final FileInfoWrapper info)
 	{
-		System.out.println(" --- fsync unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- fsync unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -140,7 +165,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int fsyncdir(final String path, final int datasync, final FileInfoWrapper info)
 	{
-		System.out.println(" --- fsyncdir unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- fsyncdir unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -148,7 +175,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int ftruncate(final String path, final long offset, final FileInfoWrapper info)
 	{
-		System.out.println(" --- ftruncate unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- ftruncate unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -156,7 +185,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int getattr(final String path, final StatWrapper stat)
 	{
-		System.out.println("===============  getattr called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  getattr called with " + path);
+		}
 		VPoint point;
 		if (path.equals("/") && openVFS.currentDir.name.equals("/")) {
 			point = openVFS.currentDir;
@@ -184,7 +215,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	protected String getName()
 	{
-		System.out.println(" --- getName unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- getName unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -192,7 +225,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	protected String[] getOptions()
 	{
-		System.out.println(" --- getOptions unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- getOptions unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -200,7 +235,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int getxattr(final String path, final String xattr, final XattrFiller filler, final long size, final long position)
 	{
-		System.out.println(" --- getxattr unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- getxattr unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -208,13 +245,17 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public void init()
 	{
-		System.out.println(" --- init unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- init unimplemented called --- ");
+		}
 	}
 
 	@Override
 	public int link(final String path, final String target)
 	{
-		System.out.println(" --- link unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- link unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -222,7 +263,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int listxattr(final String path, final XattrListFiller filler)
 	{
-		System.out.println(" --- listxattr unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- listxattr unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -230,7 +273,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int lock(final String path, final FileInfoWrapper info, final FlockCommand command, final FlockWrapper flock)
 	{
-		System.out.println(" --- lock unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- lock unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -238,29 +283,41 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int mkdir(final String path, final ModeWrapper mode)
 	{
-		System.out.println("===============  mkdir called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  mkdir called with " + path);
+		}
 		return openVFS.create_point(path, VPoint.IS_DIRECTORY);
 	}
 
 	@Override
 	public int mknod(final String path, final ModeWrapper mode, final long dev)
 	{
-		System.out.println("===============  mknod called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  mknod called with " + path);
+		}
 		return openVFS.create_point(path, VPoint.IS_FILE);
 	}
 
 	@Override
 	public int open(final String path, final FileInfoWrapper info)
 	{
-		System.out.println("===============  open called with " + path + "fd: " + info.fh() + " on " + openVFS);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  open called with " + path + "fd: " + info.fh() + " on " + openVFS);
+		}
 		final int existingFD = openVFS.open_file(path);
-		System.out.println("Open fuse: existingFD " + existingFD);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("Open fuse: existingFD " + existingFD);
+		}
 		if (existingFD < 0) {
-			System.out.println("open Returngin " + existingFD);
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.out.println("open Returngin " + existingFD);
+			}
 			return existingFD;
 		}
 		else {
-			System.out.println("open Returngin success " + 0);
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.out.println("open Returngin success " + 0);
+			}
 			info.fh(existingFD);
 			return 0;
 		}
@@ -269,21 +326,27 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int opendir(final String path, final FileInfoWrapper info)
 	{
-		System.out.println("===============  opendir called with " + path + " and fh: " + info.fh());
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  opendir called with " + path + " and fh: " + info.fh());
+		}
 		return openVFS.change_dir(path) == true ? 0 : -1;
 	}
 
 	@Override
 	public int read(final String path, final ByteBuffer buffer, final long size, final long offset, final FileInfoWrapper info)
 	{
-		System.out.println("===============  read called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  read called with " + path);
+		}
 		return openVFS.vread((int) info.fh(), (int) size, (int) offset, buffer);
 	}
 
 	@Override
 	public int readdir(final String path, final DirectoryFiller filler)
 	{
-		System.out.println("===============  readdir called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  readdir called with " + path);
+		}
 		final VPoint toBeRead = openVFS.return_point(path);
 		if (toBeRead == null) {
 			System.err.println("No file returned by return_point: " + path);
@@ -301,7 +364,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int readlink(final String path, final ByteBuffer buffer, final long size)
 	{
-		System.out.println(" --- readlink unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- readlink unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -309,7 +374,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int release(final String path, final FileInfoWrapper info)
 	{
-		System.out.println(" --- release unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- release unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -317,7 +384,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int releasedir(final String path, final FileInfoWrapper info)
 	{
-		System.out.println(" --- releasedir unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- releasedir unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -325,7 +394,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int removexattr(final String path, final String xattr)
 	{
-		System.out.println(" --- removexattr unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- removexattr unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -333,7 +404,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int rename(final String path, final String newName)
 	{
-		System.out.println(" --- rename unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- rename unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -341,7 +414,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int rmdir(final String path)
 	{
-		System.out.println("===============  rmdir called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  rmdir called with " + path);
+		}
 		return openVFS.remove_point(path) == true ? 0 : -1;
 	}
 
@@ -349,7 +424,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int setxattr(final String path, final String xattr, final ByteBuffer value, final long size, final int flags,
 			final int position)
 	{
-		System.out.println(" --- setxattr unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- setxattr unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -357,7 +434,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int statfs(final String path, final StatvfsWrapper wrapper)
 	{
-		System.out.println(" --- statfs unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- statfs unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -365,7 +444,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int symlink(final String path, final String target)
 	{
-		System.out.println(" --- symlink unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- symlink unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -373,7 +454,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int truncate(final String path, final long offset)
 	{
-		System.out.println(" --- truncate unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- truncate unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -381,14 +464,18 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	@Override
 	public int unlink(final String path)
 	{
-		System.out.println("===============  unlink called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  unlink called with " + path);
+		}
 		return openVFS.remove_point(path) == true ? 0 : -1;
 	}
 
 	@Override
 	public int utimens(final String path, final TimeBufferWrapper wrapper)
 	{
-		System.out.println(" --- utimens unimplemented called --- ");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println(" --- utimens unimplemented called --- ");
+		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -397,7 +484,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public int write(final String path, final ByteBuffer buf, final long bufSize, final long writeOffset,
 			final FileInfoWrapper info)
 	{
-		System.out.println("===============  write called with " + path);
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.out.println("===============  write called with " + path);
+		}
 		return openVFS.vwrite((int) info.fh(), (int) bufSize, (int) writeOffset, buf);
 	}
 }
