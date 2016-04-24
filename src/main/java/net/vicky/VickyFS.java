@@ -334,7 +334,7 @@ public class VickyFS
 			traverseToNewDirInCurrentDir(nextDir);
 			System.out.print("/ >" + nextDir);
 		}
-		System.out.print("Resolved");
+		System.out.println("Resolved");
 		return dirs[dirs.length - 1];
 	}
 
