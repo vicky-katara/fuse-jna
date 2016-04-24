@@ -340,6 +340,9 @@ public class VickyFS
 						System.out.println("did not find " + pathArr[i] + " in " + currentDir.name);
 						return null;
 					}
+					else {
+						System.out.println(" entered " + currentDir.name);
+					}
 				}
 				return pathArr[pathArr.length - 1];
 			}
