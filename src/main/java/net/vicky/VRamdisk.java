@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import net.fusejna.DirectoryFiller;
+import net.fusejna.ErrorCodes;
 import net.fusejna.FlockCommand;
 import net.fusejna.FuseException;
 import net.fusejna.StructFlock.FlockWrapper;
@@ -147,7 +148,7 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 			point = openVFS.return_point(path);
 		}
 		if (point == null) {
-			return -1;
+			return -ErrorCodes.ENOENT();
 		}
 		stat.ino(point.hashCode());
 		if (point.isDirectory()) {
