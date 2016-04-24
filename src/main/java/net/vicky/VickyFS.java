@@ -109,8 +109,10 @@ public class VickyFS
 			return true;
 		}
 		else {
-			System.err.println(
-					"Tried to add New space: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(
+						"Tried to add New space: " + newSpaceNeeded + " Remaining: " + remaining_space + " Total: " + size);
+			}
 			return false;
 		}
 	}
@@ -148,7 +150,9 @@ public class VickyFS
 			return true;
 		}
 		else {
-			System.err.println("No Such FD Mapped to an Open File");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("No Such FD Mapped to an Open File");
+			}
 			return false;
 		}
 	}
@@ -177,11 +181,15 @@ public class VickyFS
 			System.out.println("  >>> createNewPointUnderCurrentDir called with path:" + newPointName);
 		}
 		if (newPointName == null || newPointName.equals("") || newPointName.length() == 0) {
-			System.err.println("A point cannot be created with <blank> name");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("A point cannot be created with <blank> name");
+			}
 			return false;
 		}
 		else if (currentDir.searchForChildPoint(newPointName) == true) {
-			System.err.println(currentDir.name + " already  contains " + newPointName + " .");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(currentDir.name + " already  contains " + newPointName + " .");
+			}
 			return false;
 		}
 		else {
@@ -194,7 +202,9 @@ public class VickyFS
 				return true;
 			}
 			else {
-				System.err.println("Not enough space!!");
+				if (VickyFS.DEBUG_MODE_ON) {
+					System.err.println("Not enough space!!");
+				}
 				return false;
 			}
 		}
@@ -276,17 +286,23 @@ public class VickyFS
 		}
 		final Integer existingFD = getFDForOpenFileIfExits(filePointName);
 		if (existingFD != null) {
-			System.err.println(filePointName + " was already open.");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(filePointName + " was already open.");
+			}
 			return existingFD;
 		}
 		else if (filePointName == null || filePointName.equals("") || filePointName.length() == 0) {
-			System.err.println("A point cannot exist with <blank> name");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("A point cannot exist with <blank> name");
+			}
 			return -ErrorCodes.ENAMETOOLONG();
 		}
 		else if (currentDir.searchForChildPoint(filePointName) == true) {
 			final VPoint toBeOpened = currentDir.returnSubPoint(filePointName);
 			if (toBeOpened.isDirectory()) {
-				System.err.println(toBeOpened.name + " is not a file. Cannot open...");
+				if (VickyFS.DEBUG_MODE_ON) {
+					System.err.println(toBeOpened.name + " is not a file. Cannot open...");
+				}
 				return -ErrorCodes.EISDIR();
 			}
 			else {
@@ -294,7 +310,9 @@ public class VickyFS
 				return lastAllocatedFD;
 			}
 		}
-		System.err.println("Should not be here. openFileInCurrentDir.");
+		if (VickyFS.DEBUG_MODE_ON) {
+			System.err.println("Should not be here. openFileInCurrentDir.");
+		}
 		return -ErrorCodes.ENOENT();
 	}
 
@@ -324,7 +342,9 @@ public class VickyFS
 		final String newPointName = resolvePath(path);
 		final VPoint toBeRemoved = currentDir.returnSubPoint(newPointName);
 		if (toBeRemoved == null) {
-			System.err.println("Could not find " + newPointName + " inside " + currentDir);
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("Could not find " + newPointName + " inside " + currentDir);
+			}
 			success = false;
 		}
 		else {
@@ -353,11 +373,13 @@ public class VickyFS
 			System.out.println("  >>> removePointUnderCurrentDir called with path:" + exisingPointName);
 		}
 		if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
-			System.err.println("A point cannot exist with <blank> name");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("A point cannot exist with <blank> name");
+			}
 			return false;
 		}
 		else if (currentDir.searchForChildPoint(exisingPointName) == false) {
-			System.err.println(currentDir.name + " does not  contains " + exisingPointName + " .");
+			// if (VickyFS.DEBUG_MODE_ON) System.err.println(currentDir.name + " does not contains " + exisingPointName + " .");
 			return false;
 		}
 		else {
@@ -460,11 +482,15 @@ public class VickyFS
 			System.out.println("  >>> returnPointInCurrentDir called with path:" + exisingPointName);
 		}
 		if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
-			System.err.println("A point cannot exist with <blank> name");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("A point cannot exist with <blank> name");
+			}
 			return null;
 		}
 		else if (currentDir.searchForChildPoint(exisingPointName) == false) {
-			System.err.println(currentDir.name + " does not contain " + exisingPointName);
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(currentDir.name + " does not contain " + exisingPointName);
+			}
 			return null;
 		}
 		else {
@@ -494,20 +520,26 @@ public class VickyFS
 			System.out.println("  >>> traverseToNewDirInCurrentDir called with path:" + exisingPointName);
 		}
 		if (exisingPointName == null || exisingPointName.equals("") || exisingPointName.length() == 0) {
-			System.err.println("A directory cannot exist with <blank> name");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("A directory cannot exist with <blank> name");
+			}
 			return false;
 		}
 		else if (exisingPointName.equals("..")) {
 			return traverseUpOneLevel();
 		}
 		else if (currentDir.searchForChildPoint(exisingPointName) == false) {
-			System.err.println(currentDir.name + " does not  contains " + exisingPointName);
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(currentDir.name + " does not  contains " + exisingPointName);
+			}
 			return false;
 		}
 		else {
 			final VPoint toBeReturned = currentDir.returnSubPoint(exisingPointName);
 			if (toBeReturned.isFile()) {
-				System.err.println(toBeReturned.name + " is not a directory...");
+				if (VickyFS.DEBUG_MODE_ON) {
+					System.err.println(toBeReturned.name + " is not a directory...");
+				}
 				return false;
 			}
 			else {
@@ -528,7 +560,9 @@ public class VickyFS
 			return true;
 		}
 		else {
-			System.err.println("Reached root or parentless point");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("Reached root or parentless point");
+			}
 			return false;
 		}
 	}
@@ -549,7 +583,9 @@ public class VickyFS
 			return bigByteArr.length;
 		}
 		else {
-			System.err.println("No Such FD Mapped to an Open File");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("No Such FD Mapped to an Open File");
+			}
 			return -ErrorCodes.EBADF();
 		}
 	}
@@ -561,7 +597,9 @@ public class VickyFS
 		}
 		if (openFileMap.containsKey(fd)) {
 			if (addSpaceOf(offset + size) == false) {
-				System.err.println("Ran out of space.");
+				if (VickyFS.DEBUG_MODE_ON) {
+					System.err.println("Ran out of space.");
+				}
 				return 0;
 			}
 			final byte[] byteArr = new byte[size];
@@ -576,7 +614,9 @@ public class VickyFS
 			return size;
 		}
 		else {
-			System.err.println("No Such FD Mapped to an Open File");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("No Such FD Mapped to an Open File");
+			}
 			return 0;
 		}
 	}
@@ -614,16 +654,22 @@ class VPoint
 	int addChildToDir(final VPoint childPoint)
 	{
 		if (pointType == VPoint.IS_FILE) {
-			System.err.println(name + " is a File. Cannot add " + childPoint.name + " to it.");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(name + " is a File. Cannot add " + childPoint.name + " to it.");
+			}
 			return -ErrorCodes.ENOTDIR();
 		}
 		else {
 			if (childpoints.contains(childPoint)) {
-				System.err.println(name + " already contains " + childPoint.name + " in it.");
+				if (VickyFS.DEBUG_MODE_ON) {
+					System.err.println(name + " already contains " + childPoint.name + " in it.");
+				}
 				return -ErrorCodes.EEXIST();
 			}
 			if (childPoint.parentPoint.name != name) {
-				System.err.println("Parents don't match.. Not adding..");
+				if (VickyFS.DEBUG_MODE_ON) {
+					System.err.println("Parents don't match.. Not adding..");
+				}
 				return -ErrorCodes.ECANCELED();
 			}
 			childpoints.add(childPoint);
@@ -681,7 +727,9 @@ class VPoint
 	VPoint returnSubPoint(final String childName)
 	{
 		if (isFile()) {
-			System.err.println(name + " is a File. It cannot contain " + childName + " in it.");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(name + " is a File. It cannot contain " + childName + " in it.");
+			}
 			return null;
 		}
 		else {
@@ -699,7 +747,9 @@ class VPoint
 	boolean searchForChildPoint(final String childName)
 	{
 		if (isFile()) {
-			System.err.println(name + " is a File. It cannot contain " + childName + " in it.");
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println(name + " is a File. It cannot contain " + childName + " in it.");
+			}
 			return false;
 		}
 		else {

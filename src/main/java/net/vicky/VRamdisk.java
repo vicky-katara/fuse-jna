@@ -23,8 +23,12 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	public static void main(final String[] args) throws FuseException
 	{
 		if (args.length < 2) {
-			System.err.println("Usage: ramdisk <mountpoint> <size>");
-			System.err.println("You gave wrongly, " + Arrays.toString(args));
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("Usage: ramdisk <mountpoint> <size>");
+			}
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("You gave wrongly, " + Arrays.toString(args));
+			}
 			System.exit(1);
 		}
 		final int capacity = Integer.parseInt(args[1]) * 1024 * 1024;
@@ -112,7 +116,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 				return open(path, info);
 			}
 			else {
-				System.err.println("mknod failed with " + mknod_result);
+				if (VickyFS.DEBUG_MODE_ON) {
+					System.err.println("mknod failed with " + mknod_result);
+				}
 				return mknod_result;
 			}
 		}
@@ -349,7 +355,9 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		}
 		final VPoint toBeRead = openVFS.return_point(path);
 		if (toBeRead == null) {
-			System.err.println("No file returned by return_point: " + path);
+			if (VickyFS.DEBUG_MODE_ON) {
+				System.err.println("No file returned by return_point: " + path);
+			}
 			return -ErrorCodes.ENOENT();
 		}
 		else if (toBeRead.isFile()) {
