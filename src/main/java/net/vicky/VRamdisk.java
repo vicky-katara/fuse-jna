@@ -207,12 +207,12 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 		stat.ino(point.hashCode());
 		if (point.isDirectory()) {
 			stat.nlink(2);
-			stat.size(point.name.length() * 2);
+			stat.size(point.name.length());
 			stat.setMode(NodeType.DIRECTORY);
 		}
 		else {
 			stat.nlink(1);
-			stat.size(point.name.length() * 2 + point.contents.size());
+			stat.size(point.name.length() + point.contents.size());
 			stat.setMode(NodeType.FILE);
 		}
 		return 0;
