@@ -224,11 +224,13 @@ public class VRamdisk extends net.fusejna.FuseFilesystem
 	{
 		System.out.println("open called with " + path + " on " + openVFS);
 		final int existingFD = openVFS.open_file(path);
-		if (existingFD != -1) {
+		if (existingFD > 0) {
+			System.out.println("Open: existingFD > 0:" + existingFD);
 			info.fh(existingFD);
 			return 0;
 		}
 		else {
+			System.out.println("Open: existingFD !!!> 0:" + existingFD);
 			openVFS.create_point(path, VPoint.IS_FILE);
 			final int newFD = openVFS.open_file(path);
 			info.fh(newFD);
