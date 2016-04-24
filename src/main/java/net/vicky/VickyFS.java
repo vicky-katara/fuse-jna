@@ -600,7 +600,7 @@ public class VickyFS
 				if (VickyFS.DEBUG_MODE_ON) {
 					System.err.println("Ran out of space.");
 				}
-				return 0;
+				return -ErrorCodes.ENOMEM();
 			}
 			final byte[] byteArr = new byte[size];
 			buf.get(byteArr);
