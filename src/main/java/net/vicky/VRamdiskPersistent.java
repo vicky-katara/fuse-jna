@@ -60,7 +60,8 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 	VRamdiskPersistent(final String path)
 	{
 		deserialize(path);
-		System.out.println("Persistent Ramdisk of size " + openVFS.size + " bytes REloaded from file " + path + ".");
+		System.out.println("Persistent Ramdisk of total size " + openVFS.size + " bytes and " + openVFS.remaining_space
+				+ " REloaded from file " + path + ".");
 	}
 
 	@Override
@@ -166,6 +167,10 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 			System.out.println("VickyFS class not found");
 			c.printStackTrace();
 			return;
+		}
+		catch (final Exception e) {
+			System.err.println("Error while dserializing...Corrupt Persistent file");
+			e.printStackTrace();
 		}
 	}
 
