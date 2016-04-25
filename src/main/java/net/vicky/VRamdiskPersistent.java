@@ -37,11 +37,13 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 			}
 			System.exit(1);
 		}
-		final File persistenceFile = new File(args[2]);
-		if (persistenceFile.exists() && persistenceFile.isFile()) {
+		File persistenceFile;
+		if (args.length == 3 && (persistenceFile = new File(args[2])).exists() && new File(args[2]).isFile()) {
+			System.out.println("Reloading old Ramdisk at " + persistenceFile);
 			new VRamdiskPersistent(args[2]).mount(args[0]);
 		}
 		else {
+			System.out.println("Loading new Ramdisk");
 			final long capacity = Long.parseLong(args[1]) * 1024 * 1024;
 			System.out.println("Persistent Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
 			new VRamdiskPersistent(capacity).mount(args[0]);
