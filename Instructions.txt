@@ -2,10 +2,10 @@ I have implemented the P4 - Ramdisk in fuse-jna, which is a fuse implementation 
 
 Here are the steps to setup and run my implementation of the Ramdisk.
 
-chmod 777 *  [ in the main directory].
+chmod 777 *  [ in the main directory. This is requried to be able to execute the install script.].
 . ./install  [ in the main directory(Please keep the space between the two periods / dots )]
 
-At this point, the $PATH variable will have the /gradle*/bin directory, and hence the program will execute only from this terminal window. To make it available in another window, please add the path to the .bashrc file. I was unable to do this in the script.
+At this point, the $PATH variable will have the /gradle*/bin directory, and hence the program will execute only from this terminal window. To make it available in another window, please add the path to the .bashrc file. I was unable to do this in the script. The install script takes care of all other permissions.
 
 ./ramdisk <existing-directory> <size> [ to run the standard P4 assigment (not the extra credit) ]
 
@@ -13,6 +13,6 @@ This implementation is in Native Libraries built on top of the OS, and doesn't d
 
 ./extra-credit-implemented <existing-directory> <size> [persistence-file]  [ to run the extra credit part of the P4 assigment ]
 
-The persistence only works well if the filesystem is unmounted using fusermount. If it is interrupted with Ctrl+C, the behaviour is not guaranteed.
+The persistence only works well if the filesystem is unmounted using fusermount. If it is interrupted with Ctrl+C, the behaviour is not guaranteed. The persistence file created by the filesystem, is stored in the home directory and is called "VickyRamdisk.persistence"
 
 Please feel free to reach out to me if you have any issues. I hope this hasn't caused too much inconvenience.
