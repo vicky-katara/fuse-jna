@@ -60,8 +60,8 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 	VRamdiskPersistent(final String path)
 	{
 		deserialize(path);
-		System.out.println("Persistent Ramdisk of total size " + openVFS.size + " bytes and " + openVFS.remaining_space
-				+ " REloaded from file " + path + ".");
+		System.out.println("Persistent Ramdisk of total size " + openVFS.size + " bytes and remaining space of "
+				+ openVFS.remaining_space + " bytes REloaded from file " + path + ".");
 	}
 
 	@Override
