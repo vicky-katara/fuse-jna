@@ -27,6 +27,7 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 {
 	public static void main(final String[] args) throws FuseException
 	{
+		System.out.println("You called with " + Arrays.toString(args));
 		if (args.length < 2) {
 			if (VickyFS.DEBUG_MODE_ON) {
 				System.err.println("Usage: ramdisk <mountpoint> <size>");
