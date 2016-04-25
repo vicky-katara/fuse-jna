@@ -37,7 +37,7 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 			System.exit(1);
 		}
 		final File persistenceFile = new File(args[2]);
-		if (persistenceFile.exists()) {
+		if (persistenceFile.exists() && persistenceFile.isFile()) {
 			new VRamdiskPersistent(args[2]).mount(args[0]);
 		}
 		else {
