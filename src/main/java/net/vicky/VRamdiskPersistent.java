@@ -42,7 +42,7 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 		}
 		else {
 			final long capacity = Long.parseLong(args[1]) * 1024 * 1024;
-			System.out.println("Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
+			System.out.println("Persistent Ramdisk of size " + capacity + " bytes loaded at " + args[0] + ".");
 			new VRamdiskPersistent(capacity).mount(args[0]);
 		}
 	}
@@ -57,7 +57,7 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 	VRamdiskPersistent(final String path)
 	{
 		deserialize(path);
-		System.out.println("Ramdisk of size " + openVFS.size + " bytes REloaded from file " + path + ".");
+		System.out.println("Persistent Ramdisk of size " + openVFS.size + " bytes REloaded from file " + path + ".");
 	}
 
 	@Override

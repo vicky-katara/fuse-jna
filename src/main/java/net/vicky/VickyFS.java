@@ -640,8 +640,9 @@ public class VickyFS implements Serializable
 	}
 }
 
-class VPoint
+class VPoint implements Serializable
 {
+	private static final long serialVersionUID = -5972546528655179985L;
 	static final boolean IS_FILE = false;
 	static final boolean IS_DIRECTORY = true;
 	static final int INIT_CONTENT_SIZE = 4096;
