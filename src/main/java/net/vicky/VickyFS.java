@@ -1,5 +1,6 @@
 package net.vicky;
 
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +15,9 @@ import net.fusejna.ErrorCodes;
  * struct VPoint { char* name; int isDirectory; char* contents; int current_content_capacity; struct Queue *subQueue; struct
  * VPoint *parent; struct OpenVPoint *openContainerForThis;
  */
-public class VickyFS
+public class VickyFS implements Serializable
 {
+	private static final long serialVersionUID = 8493705421187104024L;
 	public static boolean DEBUG_MODE_ON = false;
 	public static boolean DEBUG_FILE_SIZE_MODE_ON = false;
 
