@@ -7,3 +7,6 @@ export PATH=$PATH:$(pwd)
 cd ../..
 chmod 777 ramdisk
 chmod 777 extra-credit-implemented
+cd examples
+chmod 777 *
+cd ..
