@@ -6,3 +6,4 @@ cd gradle*/bin/
 export PATH=$PATH:$(pwd)
 cd ../..
 chmod 777 ramdisk
+chmod 777 extra-credit-implemented

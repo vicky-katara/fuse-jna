@@ -147,7 +147,7 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 	void deserialize(final String path)
 	{
 		try {
-			final FileInputStream fileIn = new FileInputStream("/tmp/employee.ser");
+			final FileInputStream fileIn = new FileInputStream(path);
 			final ObjectInputStream in = new ObjectInputStream(fileIn);
 			openVFS = (VickyFS) in.readObject();
 			in.close();
