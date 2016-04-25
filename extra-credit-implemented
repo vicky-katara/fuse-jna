@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 cd "`dirname "$0"`"
-./examples/run.sh net.vicky.VRamdiskPersistent "$@"
+./examples/run_new.sh net.vicky.VRamdiskPersistent "$@"
