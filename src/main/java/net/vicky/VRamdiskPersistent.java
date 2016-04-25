@@ -77,7 +77,9 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 			System.out.println(" --- afterUnmount unimplemented called --- ");
 			// TODO Auto-generated method stub
 		}
-		serialize("~" + File.pathSeparator + "VickyRamdisk.persistence");
+		final String path = "~" + File.pathSeparator + "VickyRamdisk.persistence";
+		System.out.println("Persistence file stored at " + path);
+		serialize(path);
 	}
 
 	@Override
