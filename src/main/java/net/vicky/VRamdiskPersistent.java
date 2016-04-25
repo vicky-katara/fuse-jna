@@ -38,7 +38,7 @@ public class VRamdiskPersistent extends net.fusejna.FuseFilesystem
 			System.exit(1);
 		}
 		File persistenceFile;
-		if (args.length == 3 && (persistenceFile = new File(args[2])).exists() && new File(args[2]).isFile()) {
+		if (args.length > 2 && (persistenceFile = new File(args[2])).exists() && new File(args[2]).isFile()) {
 			System.out.println("Reloading old Ramdisk at " + persistenceFile);
 			new VRamdiskPersistent(args[2]).mount(args[0]);
 		}
