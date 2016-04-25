@@ -1,0 +1,18 @@
+I have implemented the P4 - Ramdisk in fuse-jna, which is a fuse implementation in Java. Setting up the environment was tricky, and I didn't want the evaluator to be bothered by it. So I have written a script which sets up the environment.
+
+Here are the steps to setup and run my implementation of the Ramdisk.
+
+chmod 777 *  [ in the main directory].
+. ./install  [ in the main directory(Please keep the space between the two periods / dots )]
+
+At this point, the $PATH variable will have the /gradle*/bin directory, and hence the program will execute only from this terminal window. To make it available in another window, please add the path to the .bashrc file. I was unable to do this in the script.
+
+./ramdisk <existing-directory> <size> [ to run the standard P4 assigment (not the extra credit) ]
+
+This implementation is in Native Libraries built on top of the OS, and doesn't deliver great performance. It doesn't deal with stress tests very well, but works for all operations.
+
+./extra-credit-implemented <existing-directory> <size> [persistence-file]  [ to run the extra credit part of the P4 assigment ]
+
+The persistence only works well if the filesystem is unmounted using fusermount. If it is interrupted with Ctrl+C, the behaviour is not guaranteed.
+
+Please feel free to reach out to me if you have any issues. I hope this hasn't caused too much inconvenience.
